@@ -1,0 +1,6 @@
+{
+  "name": "Daymark",
+  "description": "A calm, focused to-do list to capture tasks fast, organize your day, and finish what matters.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,175 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ==========================================================================
+   Design Tokens (Easy to customize colors, spacing, radius, and shadows)
+   ========================================================================== */
+:root {
+  --bg-canvas: #f5f5f7;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #fafafa;
+  --bg-control: #e8e8ed;
+  --text-primary: #1d1d1f;
+  --text-muted: #6e6e73;
+
+  --accent: #0071e3;
+  --accent-hover: #0062c4;
+  --accent-text: #0071e3;
+  --accent-soft: rgba(0, 113, 227, 0.1);
+
+  --danger: #d92d20;
+  --danger-soft: rgba(217, 45, 32, 0.09);
+
+  --priority-low: #86868b;
+  --priority-medium: #d97706;
+  --priority-high: #d92d20;
+
+  --border-subtle: rgba(29, 29, 31, 0.08);
+  --border-strong: rgba(29, 29, 31, 0.16);
+  --header-bg: rgba(245, 245, 247, 0.78);
+
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-segmented: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+  --radius-card: 18px;
+  --radius-control: 12px;
+  --radius-pill: 9999px;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.dark {
+  --bg-canvas: #1d1d1f;
+  --bg-surface: #2c2c2e;
+  --bg-surface-hover: #323235;
+  --bg-control: #3a3a3c;
+  --text-primary: #f5f5f7;
+  --text-muted: #a1a1a6;
+
+  --accent: #0071e3;
+  --accent-hover: #147ce5;
+  --accent-text: #4da3ff;
+  --accent-soft: rgba(77, 163, 255, 0.14);
+
+  --danger: #ff6961;
+  --danger-soft: rgba(255, 105, 97, 0.14);
+
+  --priority-low: #98989d;
+  --priority-medium: #f59e0b;
+  --priority-high: #ff6961;
+
+  --border-subtle: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.18);
+  --header-bg: rgba(29, 29, 31, 0.78);
+
+  --shadow-card: 0 4px 18px rgba(0, 0, 0, 0.28), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-segmented: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    font-weight: 400;
+    line-height: 1.5;
+    transition: background-color 200ms cubic-bezier(0.16, 1, 0.3, 1), color 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Accessible visible focus rings */
+  :focus-visible {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 2px;
+  }
+}
+
+/* Tabular numerals for counters, percentages, and dates */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom Round Checkbox SVG check animation */
+.check-path {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  transition: stroke-dashoffset 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.is-checked .check-path {
+  stroke-dashoffset: 0;
+}
+
+/* Task entrance & removal animations */
+@keyframes taskEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.task-enter {
+  animation: taskEnter 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.task-row-wrapper {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 200ms cubic-bezier(0.16, 1, 0.3, 1), opacity 180ms ease;
+}
+
+.task-row-wrapper.is-removing {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.task-row-inner {
+  overflow: hidden;
+}
+
+/* Reveal task action buttons on hover/focus on desktop, always visible on touch devices */
+.task-actions {
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.task-row:hover .task-actions,
+.task-row:focus-within .task-actions {
+  opacity: 1;
+}
+
+@media (hover: none), (max-width: 640px) {
+  .task-actions {
+    opacity: 1;
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
